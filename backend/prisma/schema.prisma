@@ -1,0 +1,64 @@
+// Prisma schema based on NoCash.sql (simplified)
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model users {
+  id_users   Int     @id @default(autoincrement())
+  fullname   String?
+  username   String  @unique
+  level      Int?
+  saldo      Int?
+  status     Boolean? @default(true)
+  uplink     String?
+  password   String
+  created_at DateTime?
+  updated_at DateTime?
+
+  @@map("users")
+}
+
+model referral_code {
+  id_reff    Int     @id @default(autoincrement())
+  code       String?
+  set_saldo  Int?
+  used_by    String?
+  created_by String?
+  created_at DateTime?
+  updated_at DateTime?
+
+  @@map("referral_code")
+}
+
+model keys_code {
+  id_keys     Int     @id @default(autoincrement())
+  game        String
+  user_key    String? @unique
+  duration    Int?
+  expired_date DateTime?
+  max_devices Int?
+  devices     String?
+  status      Boolean? @default(true)
+  registrator String?
+  created_at  DateTime?
+  updated_at  DateTime?
+
+  @@map("keys_code")
+}
+
+model history {
+  id_history Int     @id @default(autoincrement())
+  keys_id    String?
+  user_do    String?
+  info       String
+  created_at DateTime?
+  updated_at DateTime?
+
+  @@map("history")
+}
